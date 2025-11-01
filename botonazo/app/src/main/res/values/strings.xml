@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">botonazo</string>
+    <string name="textView">Pulsar el botón</string>
+    <string name="pulsar">Pulsar</string>
+</resources>
