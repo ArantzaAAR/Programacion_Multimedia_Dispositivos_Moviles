@@ -23,8 +23,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.pm.ShortcutInfoCompat
 import com.example.appcuenta001.componentes.CajaTexto
+import com.example.apppropina002.componentes.CajaTexto
 import com.example.apppropina002.ui.theme.AppPropina002Theme
 
 class MainActivity : ComponentActivity() {
@@ -43,7 +46,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppPropina002Theme {
-                ContenidoPrincipal()
+                MyApp {
+                    ContenidoPrincipal()
+                }
             }
         }
     }
@@ -55,28 +60,31 @@ fun ContenidoPrincipal() {
     var totalCuenta by rememberSaveable {
         mutableStateOf("")
     }
-    var estadoValido by rememberSaveable (totalCuenta){
+    var estadoValido by rememberSaveable(totalCuenta) {
         mutableStateOf(totalCuenta.trim().isNotEmpty())
     }
     //controlamos el teclado
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Surface (modifier = Modifier.padding(16.dp)
-        .fillMaxWidth(),
+    Surface(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         border = BorderStroke(width = 2.dp, color = Color.LightGray)
 
-    ){
-        Column (){
+    ) {
+        Column() {
             CajaTexto(
                 valueState = totalCuenta,
-                onValueChangeState = {totalCuenta=it.trim()},
+                onValueChangeState = { totalCuenta = it.trim() },
                 labelId = "Introduce la cuenta",
                 enabled = true,
                 isSingleLine = true,
                 onAction = keyboardActions {
-                    if(estadoValido) return@keyboardActions
-                    keyboardController?.hide()
+                    if (estadoValido) {
+                        keyboardController?.hide()
+                    }
                 })
         }
     }
@@ -97,11 +105,15 @@ fun TopCabecera(totalPorPersona: Double = 0.0) {
 
         ) {
             val total = "%.2f".format(totalPorPersona)
-            Text("Cantidad por persona",
-                style = MaterialTheme.typography.titleSmall)
-            Text("$total€",
+            Text(
+                "Cantidad por persona",
+                style = MaterialTheme.typography.titleSmall
+            )
+            Text(
+                "$total€",
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.ExtraBold)
+                fontWeight = FontWeight.ExtraBold
+            )
         }
     }
 }
