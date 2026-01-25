@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -82,13 +83,14 @@ fun ContenidoPrincipal() {
                 enabled = true,
                 isSingleLine = true,
                 onAction = keyboardActions {
-                    if (estadoValido) {
+                    if (estadoValido) return@keyboardActions 
                         keyboardController?.hide()
-                    }
                 })
         }
     }
 }
+
+private fun ColumnScope.keyboardActions(function: () -> Unit): androidx.compose.foundation.text.KeyboardActions {}
 
 @Composable
 fun TopCabecera(totalPorPersona: Double = 0.0) {
